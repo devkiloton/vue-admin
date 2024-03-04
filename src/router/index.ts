@@ -1,11 +1,18 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Layout from "@/views/Layout.vue";
+import { apiClient } from "@/clients";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "home",
     component: Layout,
+    beforeEnter: async (to, from, next) => {
+      const isAuthenticated = await apiClient.auth.user();
+      if (!isAuthenticated) next({ name: "Login" });
+
+      next();
+    },
   },
   {
     path: "/login",
