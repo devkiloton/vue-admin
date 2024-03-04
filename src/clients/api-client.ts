@@ -1,7 +1,11 @@
+import { User } from "@/models/user";
+import axios from "axios";
+
 const API_URL = process.env.VUE_APP_API_URL;
-const headers = new Headers();
-headers.append("Accept", "json");
-headers.append("Content-Type", "application/json");
+const headers = {
+  Accept: "application/json",
+  "Content-Type": "application/json",
+};
 
 export const apiClient = {
   auth: {
@@ -9,7 +13,7 @@ export const apiClient = {
       email: string;
       password: string;
       scope: "admin" | "ambassador";
-    }) => {
+    }): Promise<void> => {
       const { email, password } = data;
 
       const raw = JSON.stringify({
@@ -17,13 +21,14 @@ export const apiClient = {
         password,
       });
 
-      const requestOptions = {
-        method: "POST",
-        body: raw,
+      await axios.post(`${API_URL}/api/admin/login`, raw, {
         headers,
-      };
-
-      await fetch(`${API_URL}/api/admin/login`, requestOptions);
+      });
+    },
+    logout: async (): Promise<void> => {
+      await axios.post(`${API_URL}/api/admin/logout`, undefined, {
+        headers,
+      });
     },
     register: async (data: {
       email: string;
@@ -32,7 +37,7 @@ export const apiClient = {
       firstName: string;
       lastName: string;
       scope: "admin" | "ambassador";
-    }) => {
+    }): Promise<void> => {
       const { email, password, confirmPassword, firstName, lastName } = data;
 
       const raw = JSON.stringify({
@@ -43,13 +48,17 @@ export const apiClient = {
         confirm_password: confirmPassword,
       });
 
-      const requestOptions = {
-        method: "POST",
-        body: raw,
+      await axios.post(`${API_URL}/api/admin/register`, raw, {
         headers,
-      };
-
-      await fetch(`${API_URL}/api/admin/register`, requestOptions);
+      });
+    },
+    user: async (): Promise<false | User> => {
+      return await axios
+        .get(`${API_URL}/api/admin/user`, {
+          headers,
+        })
+        .then((res) => res.data)
+        .catch(() => false);
     },
   },
 };
