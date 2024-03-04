@@ -13,6 +13,17 @@ const routes: Array<RouteRecordRaw> = [
 
       next();
     },
+    children: [
+      {
+        path: "",
+        redirect: "/users",
+      },
+      {
+        path: "/users",
+        name: "Users",
+        component: () => import("../views/Users.vue"),
+      },
+    ],
   },
   {
     path: "/login",
