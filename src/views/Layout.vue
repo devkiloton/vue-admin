@@ -1,16 +1,39 @@
 <template>
-  <div></div>
+  <Nav :user="user" />
+
+  <div class="container-fluid">
+    <div class="row">
+      <Menu />
+
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="table-responsive">
+          <router-view />
+        </div>
+      </main>
+    </div>
+  </div>
 </template>
 
 <script>
+import { apiClient } from "@/clients";
+import Menu from "@/components/Menu.vue";
+import Nav from "@/components/Nav.vue";
+import { User } from "@/models/user";
+
 export default {
-  name: "Test",
-  created() {},
-  data() {
-    return {};
+  name: "Layout",
+  components: {
+    Menu,
+    Nav,
   },
-  props: {},
-  methods: {},
+  data() {
+    return {
+      user: new User(),
+    };
+  },
+  async mounted() {
+    this.user = await apiClient.auth.user();
+  },
 };
 </script>
 
