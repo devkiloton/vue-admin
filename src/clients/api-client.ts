@@ -61,4 +61,127 @@ export const apiClient = {
         .catch(() => false);
     },
   },
+  ambassadors: {
+    getAll: async (): Promise<User[]> => {
+      return await axios
+        .get(`${API_URL}/api/admin/ambassadors`, {
+          headers,
+        })
+        .then((res) => res.data);
+    },
+  },
+  links: {
+    getByID: async (id: string): Promise<string[]> => {
+      return await axios
+        .get(`${API_URL}/api/admin/users/${id}/links`, {
+          headers,
+        })
+        .then((res) => res.data);
+    },
+  },
+  products: {
+    getAll: async (): Promise<Array<object>> => {
+      return await axios
+        .get(`${API_URL}/api/admin/products`, {
+          headers,
+        })
+        .then((res) => res.data);
+    },
+    getOne: async (id: string): Promise<object> => {
+      return await axios
+        .get(`${API_URL}/api/admin/products/${id}`, {
+          headers,
+        })
+        .then((res) => res.data);
+    },
+    delete: async (id: string): Promise<void> => {
+      await axios.delete(`${API_URL}/api/admin/products/${id}`, {
+        headers,
+      });
+    },
+    create: async (data: {
+      title: string;
+      description: string;
+      price: number;
+      image: string;
+    }): Promise<void> => {
+      const { title, description, price, image } = data;
+
+      const raw = JSON.stringify({
+        title,
+        description,
+        price,
+        image,
+      });
+
+      await axios.post(`${API_URL}/api/admin/products`, raw, {
+        headers,
+      });
+    },
+    update: async (data: {
+      title: string;
+      description: string;
+      price: number;
+      image: string;
+      id: string;
+    }): Promise<void> => {
+      const { title, description, price, image } = data;
+
+      const raw = JSON.stringify({
+        title,
+        description,
+        price,
+        image,
+      });
+
+      await axios.put(`${API_URL}/api/admin/products/${data.id}`, raw, {
+        headers,
+      });
+    },
+  },
+  orders: {
+    getAll: async () => {
+      return await axios
+        .get(`${API_URL}/api/admin/orders`, {
+          headers,
+        })
+        .then((res) => res.data);
+    },
+  },
+  users: {
+    update: async (data: {
+      id: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+    }): Promise<void> => {
+      const { email, firstName, lastName } = data;
+
+      const raw = JSON.stringify({
+        email,
+        first_name: firstName,
+        last_name: lastName,
+      });
+
+      await axios.put(`${API_URL}/api/admin/users/update`, raw, {
+        headers,
+      });
+    },
+    updatePassword: async (data: {
+      id: string;
+      password: string;
+      confirmPassword: string;
+    }): Promise<void> => {
+      const { password, confirmPassword } = data;
+
+      const raw = JSON.stringify({
+        password,
+        confirm_password: confirmPassword,
+      });
+
+      await axios.put(`${API_URL}/api/admin/users/update-password`, raw, {
+        headers,
+      });
+    },
+  },
 };
