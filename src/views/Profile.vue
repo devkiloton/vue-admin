@@ -20,7 +20,7 @@
         <v-text-field label="Password" v-model="password" />
       </div>
       <div class="mb-3">
-        <v-text-field label="Password Confirm" v-model="password_confirm" />
+        <v-text-field label="Password Confirm" v-model="confirmPassword" />
       </div>
       <v-btn color="primary" type="submit">Save</v-btn>
     </form>
@@ -28,15 +28,32 @@
 </template>
 
 <script>
+import { apiClient } from "@/clients";
+
 export default {
   name: "Profile",
   data() {
     return {
       password: "",
-      password_confirm: "",
+      confirmPassword: "",
     };
   },
-  methods: {},
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+  },
+  methods: {
+    async infoSubmit() {
+      await apiClient.users.update(this.user);
+    },
+    async passwordSubmit() {
+      await apiClient.users.updatePassword({
+        password: this.password,
+        confirmPassword: this.confirmPassword,
+      });
+    },
+  },
 };
 </script>
 
