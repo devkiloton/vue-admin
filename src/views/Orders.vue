@@ -43,14 +43,6 @@ export default {
       orders: [],
     };
   },
-  methods: {
-    async infoSubmit() {
-      await apiClient.users.update(this.user);
-    },
-    async passwordSubmit() {
-      await apiClient.users.updatePassword(this.password);
-    },
-  },
 };
 </script>
 
