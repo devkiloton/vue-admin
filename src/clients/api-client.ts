@@ -168,7 +168,6 @@ export const apiClient = {
       });
     },
     updatePassword: async (data: {
-      id: string;
       password: string;
       confirmPassword: string;
     }): Promise<void> => {
