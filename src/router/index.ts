@@ -28,6 +28,31 @@ const routes: Array<RouteRecordRaw> = [
         name: "Links",
         component: () => import("../views/Links.vue"),
       },
+      {
+        path: "/products",
+        name: "Products",
+        component: () => import("../views/products/Products.vue"),
+      },
+      {
+        path: "/products/create",
+        name: "Add Products",
+        component: () => import("../views/products/ProductsForm.vue"),
+      },
+      {
+        path: "/products/:id/edit",
+        name: "Add Products",
+        component: () => import("../views/products/ProductsForm.vue"),
+      },
+      {
+        path: "/orders",
+        name: "Orders",
+        component: () => import("../views/Orders.vue"),
+      },
+      {
+        path: "/profile",
+        name: "Profile",
+        component: () => import("../views/Profile.vue"),
+      },
     ],
   },
   {
