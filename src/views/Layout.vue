@@ -1,5 +1,5 @@
 <template>
-  <Nav :user="user" />
+  <Nav />
 
   <div class="container-fluid">
     <div class="row">
@@ -33,6 +33,8 @@ export default {
   },
   async mounted() {
     this.user = await apiClient.auth.user();
+
+    await this.$store.dispatch("setUser", this.user);
   },
 };
 </script>
